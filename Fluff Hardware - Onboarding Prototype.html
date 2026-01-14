@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluff Hardware - Company Record</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f8fa;
+            color: #33475b;
+        }
+
+        .header {
+            background-color: #2d3e50;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 24px;
+            height: 24px;
+            background-color: #ff7a59;
+            border-radius: 4px;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 48px;
+            width: 200px;
+            height: calc(100vh - 48px);
+            background-color: #516f90;
+            padding: 20px 0;
+        }
+
+        .sidebar-item {
+            padding: 10px 20px;
+            color: #b8c5d6;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .sidebar-item.active {
+            background-color: #33475b;
+            color: white;
+        }
+
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        .company-header {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .company-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .company-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: #8b5a3c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .company-name h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3e50;
+        }
+
+        .company-website {
+            color: #0091ae;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #cbd6e2;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background-color: #f5f8fa;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 30px;
+            background-color: white;
+            padding: 0 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            padding: 15px 0;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: #516f90;
+        }
+
+        .tab:hover {
+            color: #2d3e50;
+        }
+
+        .tab.active {
+            border-bottom-color: #ff7a59;
+            color: #2d3e50;
+        }
+
+        .content-area {
+            display: flex;
+            gap: 20px;
+        }
+
+        .left-column {
+            flex: 1;
+        }
+
+        .right-column {
+            width: 350px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3e50;
+        }
+
+        .card-action {
+            color: #0091ae;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            padding: 10px 0;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #7c98b6;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #2d3e50;
+        }
+
+        .about-section {
+            line-height: 1.6;
+        }
+
+        .about-item {
+            margin-bottom: 15px;
+        }
+
+        .about-label {
+            font-size: 12px;
+            color: #7c98b6;
+            margin-bottom: 4px;
+        }
+
+        .about-value {
+            font-size: 14px;
+            color: #2d3e50;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: #f5f8fa;
+            border: 1px solid #cbd6e2;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #516f90;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border: 1px solid #e6ecf2;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .contact-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ff7a59;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .contact-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3e50;
+            margin-bottom: 2px;
+        }
+
+        .contact-info p {
+            font-size: 12px;
+            color: #7c98b6;
+        }
+
+        .deal-card {
+            padding: 15px;
+            border: 1px solid #e6ecf2;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .deal-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0091ae;
+            margin-bottom: 8px;
+        }
+
+        .deal-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #516f90;
+        }
+
+        /* Onboarding Tab Specific Styles */
+        .onboarding-content {
+            display: none;
+        }
+
+        .onboarding-content.active {
+            display: block;
+        }
+
+        .overview-content.active {
+            display: block;
+        }
+
+        .overview-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo"></div>
+            <span>HubSpot</span>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-item">🔖 Bookmarks</div>
+        <div class="sidebar-item active">📊 CRM</div>
+        <div class="sidebar-item">📢 Marketing</div>
+        <div class="sidebar-item">💬 Content</div>
+        <div class="sidebar-item">💰 Sales</div>
+        <div class="sidebar-item">🛒 Commerce</div>
+        <div class="sidebar-item">🔧 Service</div>
+        <div class="sidebar-item">📁 Data Management</div>
+        <div class="sidebar-item">⚡ Automation</div>
+        <div class="sidebar-item">📈 Reporting</div>
+        <div class="sidebar-item">🎯 Resale</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Company Header -->
+        <div class="company-header">
+            <div class="company-title">
+                <div class="company-avatar">FH</div>
+                <div class="company-name">
+                    <h1>Fluff Hardware</h1>
+                    <a href="#" class="company-website">fluffhardware.com ↗</a>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn">📝 Note</button>
+                <button class="btn">✉️ Email</button>
+                <button class="btn">📞 Call</button>
+                <button class="btn">📋 Task</button>
+                <button class="btn">📅 Meeting</button>
+                <button class="btn">⋯ More</button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('overview')">Overview</div>
+            <div class="tab" onclick="showTab('onboarding')">Onboarding</div>
+            <div class="tab">Activities</div>
+            <div class="tab">AI Insights</div>
+            <div class="tab">Intelligence</div>
+        </div>
+
+        <!-- Overview Tab Content -->
+        <div class="overview-content active">
+            <div class="content-area">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Data Highlights -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Data highlights</h2>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Create Date</div>
+                                <div class="info-value">05/30/2025 1:48 PM MDT</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Lifecycle Stage</div>
+                                <div class="info-value">Customer</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Last Activity Date</div>
+                                <div class="info-value">01/06/2025 11:05 AM MDT</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subscription MRR -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Subscription MRR</h2>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Subscription Start Date</div>
+                                <div class="info-value">06/03/2025 4:01 PM MDT (7.4 months ago)</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Subscription MRR</div>
+                                <div class="info-value">$90</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Subscription Plan</div>
+                                <div class="info-value">Professional Plus quarterly</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Subscription Status</div>
+                                <div class="info-value">active</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Subscription Renewal Date</div>
+                                <div class="info-value">03/04/2026</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Subscription Cancel Date</div>
+                                <div class="info-value">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Subscription Chart Date</div>
+                                <div class="info-value">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Account Additional Sales Orders</div>
+                                <div class="info-value">active</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Add-on Planning and Forecasting</div>
+                                <div class="info-value">active</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Add-on Warehouse Management</div>
+                                <div class="info-value">active</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Account TwoBodyMe</div>
+                                <div class="info-value">ACTIVE</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Add-on Advanced Manufacturing</div>
+                                <div class="info-value">churned</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Licenses Free Offer Supplied</div>
+                                <div class="info-value"><span class="badge">switched 10x for limited time ↗</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About this company -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">About this company</h2>
+                            <a href="#" class="card-action">Actions ▼</a>
+                        </div>
+                        <div class="about-section">
+                            <div class="about-item">
+                                <div class="about-label">Industry</div>
+                                <div class="about-value">86636</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Company Domain Name</div>
+                                <div class="about-value">fluffhardware.com</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Active Trial utilizing</div>
+                                <div class="about-value">1 free trial</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Send a stage</div>
+                                <div class="about-value">Lead Nurture</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Signed Notes</div>
+                                <div class="about-value">06/04/2025 5:16 PM MDT</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Created Time</div>
+                                <div class="about-value">05/30/2025 1:54 PM MDT</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Katana Link</div>
+                                <div class="about-value">https://sales.linkedin.com/u/apps/ng/vault/cases-b49609ff94cc00a0a980dd8-conversations</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Customer In boarding Engagement</div>
+                                <div class="about-value">-</div>
+                            </div>
+                            <div class="about-item">
+                                <div class="about-label">Company Owner</div>
+                                <div class="about-value">Charlson Lion</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Contacts -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Contacts (4)</h2>
+                            <a href="#" class="card-action">+ Add</a>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-avatar">RV</div>
+                            <div class="contact-info">
+                                <h4>Rachael Veasion</h4>
+                                <p>General Manager, Content Director, & Buyer at Fluff Hardware</p>
+                                <p>Email: rachael@fluffhardware.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-avatar" style="background-color: #0091ae;">BK</div>
+                            <div class="contact-info">
+                                <h4>Brandon Kotsevo</h4>
+                                <p>Fluff Hardware</p>
+                                <p>Email: brendan.choeffeur@fluffhardwaremrp.com</p>
+                                <p>Role: User</p>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-avatar" style="background-color: #f2545b;">ET</div>
+                            <div class="contact-info">
+                                <h4>Emma Von Thaden</h4>
+                                <p>Fluff Hardware</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deals -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Deals (1)</h2>
+                            <a href="#" class="card-action">+ Add</a>
+                        </div>
+                        <div class="deal-card">
+                            <div class="deal-title">Solymar Pulls - Fluff Hardware</div>
+                            <div class="deal-details">
+                                <span>Amount: $1,140.00</span>
+                            </div>
+                            <div class="deal-details">
+                                <span>Close date: 05/30/2025 1:58 PM MDT</span>
+                            </div>
+                            <div class="deal-details">
+                                <span>Deal Stage: Closed won ✓</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Channel Partners -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Channel Partners (0)</h2>
+                            <a href="#" class="card-action">+ Add</a>
+                        </div>
+                        <p style="color: #7c98b6; font-size: 14px;">See the Channel Partners associated with this record.</p>
+                    </div>
+
+                    <!-- Tech Partners -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Tech Partners (0)</h2>
+                            <a href="#" class="card-action">+ Add</a>
+                        </div>
+                        <p style="color: #7c98b6; font-size: 14px;">See the Tech Partners associated with this record.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onboarding Tab Content (NEW) -->
+        <div class="onboarding-content">
+            <div class="content-area">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Onboarding Information - Single Card -->
+                    <div class="card" style="grid-column: 1 / -1;">
+                        <div class="card-header">
+                            <h2 class="card-title">Onboarding Information</h2>
+                        </div>
+                        <div style="padding: 20px; font-size: 13px; color: #516f90; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+                            
+                            <!-- ROW 1 -->
+                            <!-- Subscription Status -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">SUBSCRIPTION STATUS</h3>
+                                <div style="margin-bottom: 4px;"><strong>FID:</strong> 12345</div>
+                                <div style="margin-bottom: 4px;"><strong>Plan:</strong> Pro +</div>
+                                <div style="margin-bottom: 4px;"><strong>Status:</strong> ✅ Active</div>
+                                <div style="margin-bottom: 4px;"><strong>Renewal:</strong> Dec 15, 2024</div>
+                                <div><strong>MRR:</strong> $1,120</div>
+                            </div>
+
+                            <!-- Key Contacts -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">KEY CONTACTS</h3>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 4px;">• 🏆 <strong>Jess DeMaria</strong> (UID: 2847)</li>
+                                    <li>• <strong>Emma Von Thaden</strong> (UID: 5934)</li>
+                                </ul>
+                            </div>
+
+                            <!-- Tech Stack -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">TECH STACK</h3>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 4px;">• Shopify - Extensiv</li>
+                                    <li style="margin-bottom: 4px;">• QuickBooks Online - Native</li>
+                                    <li style="margin-bottom: 4px;">• Faire - Shopify</li>
+                                    <li style="margin-bottom: 4px;">• Extensiv - Native</li>
+                                    <li style="margin-bottom: 4px;">• Make.com - Native</li>
+                                    <li>• Google Sheets - API</li>
+                                </ul>
+                            </div>
+
+                            <!-- Next Steps -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">NEXT STEPS</h3>
+                                <ol style="list-style: decimal; padding-left: 18px; margin: 0;">
+                                    <li style="margin-bottom: 4px;">Google Sheet Review (Jan 25)</li>
+                                    <li style="margin-bottom: 4px;">Training (Feb 1)</li>
+                                    <li style="margin-bottom: 4px;">Go-live review(Feb 15)</li>
+                                    <li>Success Intro</li>
+                                </ol>
+                            </div>
+
+                            <!-- ROW 2 -->
+                            <!-- Add-ons -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">ADD-ONS</h3>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 4px;">• ADV MFG ✅</li>
+                                    <li style="margin-bottom: 4px;">• ADV WHS ✅</li>
+                                    <li style="margin-bottom: 4px;">• PAF ✅</li>
+                                    <li style="margin-bottom: 4px;">• Traceability ❌</li>
+                                    <li>• Additional SO ❌</li>
+                                </ul>
+                            </div>
+
+                            <!-- Operations Live -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">OPERATIONS LIVE</h3>
+                                <div style="margin-bottom: 4px;"><strong>Operations Live:</strong> ✅</div>
+                                <div style="margin-bottom: 4px;"><strong>Operations Live Date:</strong> Nov 11, 2025</div>
+                                <div style="margin-bottom: 4px;"><strong>Time to Ops Live:</strong> 160 Days</div>
+                                <div><strong>Active Users:</strong> 2</div>
+                            </div>
+
+                            <!-- Product Usage -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">PRODUCT USAGE</h3>
+                                <div style="margin-bottom: 4px;"><strong>Usage Score:</strong> 39</div>
+                                <div style="margin-bottom: 4px;"><strong>Segment:</strong> A</div>
+                                <div style="margin-bottom: 4px;"><strong>30d SO Delivered:</strong> 829</div>
+                            </div>
+
+                            <!-- Last Communication -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">LAST COMMUNICATION</h3>
+                                <div style="margin-bottom: 4px;"><strong>Date:</strong> Jan 10, 2024</div>
+                                <div style="margin-bottom: 4px;"><strong>Type:</strong> QBR</div>
+                                <div><strong>Notes:</strong> Google Sheet custom build discussed</div>
+                            </div>
+
+                            <!-- ROW 3 -->
+                            <!-- Implementation Risks -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">IMPLEMENTATION RISKS</h3>
+                                <div style="margin-bottom: 4px;"><strong>Risk Level:</strong> ⚠️ Medium</div>
+                                <div style="margin-bottom: 4px;"><strong>Key Issues:</strong></div>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 2px;">• Multi-Bin Location Needed</li>
+                                    <li style="margin-bottom: 2px;">• Ingredient Serialization</li>
+                                </ul>
+                            </div>
+
+                            <!-- Red Flags -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">RED FLAGS</h3>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 4px;">• ⚠️ Data readiness</li>
+                                    <li style="margin-bottom: 4px;">• ⚠️ Unreasonable Timeline Expectations</li>
+                                    <li style="margin-bottom: 4px;">• Cost Sensitive</li>
+                                </ul>
+                            </div>
+
+                            <!-- JIRAs & Issues -->
+                            <div>
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">JIRAs & ISSUES</h3>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 4px;">• 🔴 JIRA-2847: QBO Data sync</li>
+                                    <li style="margin-bottom: 4px;">• 🟢 JIRA-2923: Free Email</li>
+                                    <li style="margin-bottom: 4px;">• 🟢 JIRA-3001: Free Email</li>
+                                    <li>• +5 completed items</li>
+                                </ul>
+                            </div>
+
+                            <!-- ROW 4 -->
+                            <!-- Upcoming Meetings - Full Width -->
+                            <div style="grid-column: 1 / -1;">
+                                <h3 style="font-weight: 600; color: #33475b; margin: 0 0 8px 0; font-size: 12px;">UPCOMING MEETINGS</h3>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 8px;"><strong>Jan 22 @ 10:00 AM</strong> - Discuss Google Sheet API connection</li>
+                                    <li style="margin-bottom: 8px;"><strong>Jan 29 @ 2:00 PM</strong> - Training session with Operations Team</li>
+                                    <li style="margin-bottom: 8px;"><strong>Feb 5 @ 9:00 AM</strong> - Go Live Check-In</li>
+                                    <li><strong>Feb 15 @ 1:00 PM</strong> - Introduction to Customer Success Manager</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Onboarding Checklist -->
+                    <div class="card" style="grid-column: 1 / -1; margin-top: 20px;">
+                        <div class="card-header">
+                            <h2 class="card-title">Onboarding Checklist</h2>
+                            <a href="#" class="card-action">Manage</a>
+                        </div>
+                        <div class="about-section">
+                            <div class="about-item" style="padding: 12px; background-color: #d4edda; border-radius: 6px; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 20px;">✓</span>
+                                    <div>
+                                        <div style="font-weight: 600; color: #155724;">Initial Setup Call</div>
+                                        <div style="font-size: 12px; color: #155724;">Completed 06/05/2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="about-item" style="padding: 12px; background-color: #d4edda; border-radius: 6px; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 20px;">✓</span>
+                                    <div>
+                                        <div style="font-weight: 600; color: #155724;">Data Import Completed</div>
+                                        <div style="font-size: 12px; color: #155724;">Completed 06/15/2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="about-item" style="padding: 12px; background-color: #fff3cd; border-radius: 6px; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 20px;">⏳</span>
+                                    <div>
+                                        <div style="font-weight: 600; color: #856404;">User Training Session 1</div>
+                                        <div style="font-size: 12px; color: #856404;">Scheduled 01/20/2026</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="about-item" style="padding: 12px; background-color: #f8f9fa; border-radius: 6px; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 20px;">◯</span>
+                                    <div>
+                                        <div style="font-weight: 600; color: #6c757d;">User Training Session 2</div>
+                                        <div style="font-size: 12px; color: #6c757d;">Not Started</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="about-item" style="padding: 12px; background-color: #f8f9fa; border-radius: 6px; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 20px;">◯</span>
+                                    <div>
+                                        <div style="font-weight: 600; color: #6c757d;">Workflow Configuration</div>
+                                        <div style="font-size: 12px; color: #6c757d;">Not Started</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="about-item" style="padding: 12px; background-color: #f8f9fa; border-radius: 6px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 20px;">◯</span>
+                                    <div>
+                                        <div style="font-weight: 600; color: #6c757d;">Go-Live Review</div>
+                                        <div style="font-size: 12px; color: #6c757d;">Not Started</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Hide all content areas
+            document.querySelector('.overview-content').classList.remove('active');
+            document.querySelector('.onboarding-content').classList.remove('active');
+            
+            // Show selected content and activate tab
+            if (tabName === 'overview') {
+                document.querySelector('.overview-content').classList.add('active');
+                document.querySelectorAll('.tab')[0].classList.add('active');
+            } else if (tabName === 'onboarding') {
+                document.querySelector('.onboarding-content').classList.add('active');
+                document.querySelectorAll('.tab')[1].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
