@@ -370,15 +370,15 @@
 
         <!-- Navigation Tabs -->
         <div class="tabs">
-            <div class="tab active" onclick="showTab('overview')">Overview</div>
-            <div class="tab" onclick="showTab('onboarding')">Onboarding</div>
+            <div class="tab" onclick="showTab('overview')">Overview</div>
+            <div class="tab active" onclick="showTab('onboarding')">Onboarding</div>
             <div class="tab">Activities</div>
             <div class="tab">AI Insights</div>
             <div class="tab">Intelligence</div>
         </div>
 
         <!-- Overview Tab Content -->
-        <div class="overview-content active">
+        <div class="overview-content">
             <div class="content-area">
                 <!-- Left Column -->
                 <div class="left-column">
@@ -587,7 +587,7 @@
         </div>
 
         <!-- Onboarding Tab Content (NEW) -->
-        <div class="onboarding-content">
+        <div class="onboarding-content active">
             <div class="content-area">
                 <!-- Left Column -->
                 <div class="left-column">
@@ -796,6 +796,11 @@
     </div>
 
     <script>
+        // Set Onboarding as default tab on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('onboarding');
+        });
+
         function showTab(tabName) {
             // Remove active class from all tabs
             document.querySelectorAll('.tab').forEach(tab => {
